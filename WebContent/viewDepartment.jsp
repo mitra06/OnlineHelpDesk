@@ -24,6 +24,9 @@
             response.sendRedirect("login.html");
         }
 
+        User u=UserDao.getRecordByUtype(email);
+        String userType=u.getType();
+
 			List<Department> list=DeptDao.getAllRecord();  
 			request.setAttribute("list",list);
         %>
@@ -43,9 +46,10 @@
         <td><b>DepartmentHead</b></td>
         <td><b>DepartmentStatus</b></td>
         <td><b>DepartmentDescription</b></td>
+        <% if(userType.equals("admin")){%>
         <td><b>Edit</b></td>
         <td><b>Delete</b></td>
-        
+        <%} %>
       </tr>
       
       
@@ -57,8 +61,10 @@
 	        <td>${d.getDhead()}</td>
 	        <td>${d.getStatus() == 1 ? 'Active' : 'DeActive'}</td>
 	        <td>${d.getDesc()}</td>
+	        <% if(userType.equals("admin")){%>
 	        <td><a href="editDepartment.jsp?id=${d.getId()}"><span class="glyphicon glyphicon-pencil"></span></a></td>
 	        <td><a href="deleteDepartment.jsp?id=${d.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
+	        <%} %>
 	      </tr>
       </c:forEach>
     </tbody>

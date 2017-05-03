@@ -56,6 +56,28 @@ public class UserDao {
 	    return list;  
 	}
 
+	public static List<User> getAllTechnicians(){  
+	    List<User> list=new ArrayList<User>();  
+	      
+	    try{  
+	        Connection con=DatabaseConn.getConnection();  
+	        Statement stmt=con.createStatement();
+	        String sql="select * from tbl_user where User_type='technician'";
+	        ResultSet rs=stmt.executeQuery(sql);
+	        while(rs.next()){  
+	            User u=new User();  
+	            u.setId(rs.getInt("User_id"));  
+	            u.setName(rs.getString("User_name"));
+	            u.setDepartment(rs.getString("User_department"));
+	            u.setEmail(rs.getString("User_email"));
+	            u.setStatus(rs.getInt("User_status"));
+	             
+	            list.add(u);  
+	        }  
+	    }catch(Exception e){System.out.println(e);}  
+	    return list;  
+	}
+
 	public static User getRecordByUtype(String email){
 		
 		User u=null;

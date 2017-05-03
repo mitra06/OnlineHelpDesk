@@ -53,6 +53,8 @@ public class CompDao {
 		return list;
 		
 	}
+	
+	
 	public static Comp getRecordById(int id){
 		Comp c=null;
 		try{

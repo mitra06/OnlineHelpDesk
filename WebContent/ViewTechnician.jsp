@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<%@page import="mishra.mitra.dao.CompDao,mishra.mitra.bean.*,java.util.*"%>  
+<%@page import="mishra.mitra.dao.*,mishra.mitra.bean.*,java.util.*"%>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 
 <%
@@ -23,11 +23,17 @@
         if(email==null){
             response.sendRedirect("login.html");
         }
-
-			List<Comp> list=CompDao.getAllRecords();  
-			request.setAttribute("list",list);
-        %>
         
+        User u=UserDao.getRecordByUtype(email);
+        String userType=u.getType();
+
+
+			List<User> list=UserDao.getAllTechnicians();  
+			request.setAttribute("list",list);
+			
+			
+        %>
+        <%=userType %>
         
 <jsp:include page="navbar.jsp" />
 
@@ -41,28 +47,27 @@
         <td><b>TechId</b></td>
         <td><b>Name</b></td>
         <td><b>Email</b></td>
-        <td><b>Phone</b></td>
         <td><b>Department</b></td>
         <td><b>Status</b></td>
-        <td><b>Assign Work</b></td>
+         <% if(userType.equals("admin")){%>
         <td><b>Edit</b></td>
         <td><b>Delete</b></td>
-        
+        <%} %>
       </tr>
       
       
       	
-      <c:forEach items="${list}" var="c">
+      <c:forEach items="${list}" var="u">
       <tr>
-	        <td>${c.getId()}</td>
-	        <td>${c.getName()}</td>
-	        <td>${c.getDept()}</td>
-	        <td>${c.getDesc()}</td>
-	        <td>${c.getCby()}</td>
-	        <td>${c.getType()}</td>
-	        <td>${c.getType()}</td>
+	        <td>${u.getId()}</td>
+	        <td>${u.getName()}</td>
+	        <td>${u.getEmail()}</td>
+	        <td>${u.getDepartment()}</td>
+	        <td>${u.getStatus() == 1 ? 'Active' : 'NotActive'}</td>
+	        <% if(userType.equals("admin")){%>
 	        <td><a href="editComplaint.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-pencil"></span></a></td>
 	        <td><a href="deleteComp.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
+	        <%} %>
 	      </tr>
       </c:forEach>
     </tbody>

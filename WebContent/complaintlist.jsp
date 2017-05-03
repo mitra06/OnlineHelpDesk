@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<%@page import="mishra.mitra.dao.CompDao,mishra.mitra.bean.*,java.util.*"%>  
+<%@page import="java.sql.*,mishra.mitra.dao.*,mishra.mitra.bean.*,mishra.mitra.conn.*,java.util.*"%>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 
 <%
@@ -23,6 +23,14 @@
         if(email==null){
             response.sendRedirect("login.html");
         }
+        
+
+        User u=UserDao.getRecordByUtype(email);
+        String userType=u.getType();
+
+        
+    
+
 
 			List<Comp> list=CompDao.getAllRecords();  
 			request.setAttribute("list",list);
@@ -53,20 +61,40 @@
       
       
       	
-      <c:forEach items="${list}" var="c">
-      <tr>
-	        <td>${c.getId()}</td>
-	        <td>${c.getName()}</td>
-	        <td>${c.getDept()}</td>
-	        <td>${c.getDesc()}</td>
-	        <td>${c.getCby()}</td>
-	        <td>${c.getType()}</td>
-	        <td>${c.getStatus()}</td>
-	        <td>${c.getAssignTo()}</td>
+      
+      
+<%
+		try{
+		Connection con=DatabaseConn.getConnection();	
+		PreparedStatement ps=null;
+		if(userType.equals("admin")){
+			ps=con.prepareStatement("SELECT * FROM `tbl_complaint`");
+		}else{
+		  ps=con.prepareStatement("SELECT * FROM `tbl_complaint` where Comp_dept IN (SELECT User_department from tbl_user WHERE User_email=?)");
+		ps.setString(1, email);
+		}
+		ResultSet rs= ps.executeQuery();
+		while(rs.next()){
+
+%>
+	  <tr>
+	        <td><%= rs.getInt("Comp_id")%></td>
+	        <td><%= rs.getString("Comp_name")%></td>
+	        <td><%= rs.getString("Comp_dept")%></td>
+	        <td><%= rs.getString("Comp_desc")%></td>
+	        <td><%= rs.getString("Comp_by")%></td>
+	        <td><%= rs.getString("Comp_type")%></td>
+	        <td><%= rs.getString("Comp_status")%></td>
+	        <td><%= rs.getString("Assign_to")%></td>
 	        <td><a href="editComplaint.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-pencil"></span></a></td>
 	        <td><a href="deleteComp.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
+	      <%}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		%>
 	      </tr>
-      </c:forEach>
+      
     </tbody>
   </table>
 	</div>
