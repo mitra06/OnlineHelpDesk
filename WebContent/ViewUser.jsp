@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-<title>||HelpDesk||</title>
+<title>||Technician||</title>
 
 </head>
 <body>
@@ -23,47 +23,50 @@
         if(email==null){
             response.sendRedirect("login.html");
         }
-
+        
         User u=UserDao.getRecordByUtype(email);
         String userType=u.getType();
 
-			List<Department> list=DeptDao.getAllRecord();  
+
+			List<User> list=UserDao.getAllRecords();  
 			request.setAttribute("list",list);
+			
+			
         %>
-        
+        <%=userType %>
         
 <jsp:include page="navbar.jsp" />
 
 <div class="container">
   
-<h3 class="text-center text-danger"><u>Department Listing</u></h3>
+<h3 class="text-center text-danger"><u>User View</u></h3>
+            
   <table class="table table-responsive">
     <thead style="background-color:#2ecc71;text-align:center;color:white;">
-    
       <tr>
-        <td><b>DepartmentId</b></td>
-        <td><b>DeaprtmentName</b></td>
-        <td><b>DepartmentHead</b></td>
-        <td><b>DepartmentStatus</b></td>
-        <td><b>DepartmentDescription</b></td>
-        <% if(userType.equals("admin")){%>
-        <td><b>Edit</b></td>
+        <td><b>UId</b></td>
+        <td><b>Name</b></td>
+        <td><b>Email</b></td>
+        <td><b>Password</b></td>
+        <td><b>Department</b></td>
+        <td><b>Status</b></td>
+         <% if(userType.equals("admin")){%>
         <td><b>Delete</b></td>
         <%} %>
       </tr>
-      
       </thead>
+      
       	<tbody style="text-align:center;">
-      <c:forEach items="${list}" var="d">
+      <c:forEach items="${list}" var="u">
       <tr>
-	        <td>${d.getId()}</td>
-	        <td>${d.getName()}</td>
-	        <td>${d.getDhead()}</td>
-	        <td>${d.getStatus() == 1 ? 'Active' : 'DeActive'}</td>
-	        <td>${d.getDesc()}</td>
+	        <td>${u.getId()}</td>
+	        <td>${u.getName()}</td>
+	        <td>${u.getEmail()}</td>
+	        <td>${u.getPassword()}</td>
+	        <td>${u.getDepartment()}</td>
+	        <td>${u.getStatus() == 1 ? 'Active' : 'NotActive'}</td>
 	        <% if(userType.equals("admin")){%>
-	        <td><a href="editDepartment.jsp?id=${d.getId()}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-	        <td><a href="deleteDepartment.jsp?id=${d.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
+	        <td><a href="DeleteUser.jsp?id=${u.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
 	        <%} %>
 	      </tr>
       </c:forEach>

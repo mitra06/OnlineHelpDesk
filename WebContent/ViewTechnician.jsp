@@ -39,10 +39,10 @@
 
 <div class="container">
   
-<h3 class="text-center"><u>Technician View</u></h3>
+<h3 class="text-center text-danger"><u>Technician View</u></h3>
             
-  <table class="table table-bordered">
-    
+  <table class="table table-responsive">
+    <thead style="background-color:#2ecc71;text-align:center;color:white;">
       <tr>
         <td><b>TechId</b></td>
         <td><b>Name</b></td>
@@ -50,13 +50,12 @@
         <td><b>Department</b></td>
         <td><b>Status</b></td>
          <% if(userType.equals("admin")){%>
-        <td><b>Edit</b></td>
         <td><b>Delete</b></td>
         <%} %>
       </tr>
+      </thead>
       
-      
-      	
+      	<tbody style="text-align:center;">
       <c:forEach items="${list}" var="u">
       <tr>
 	        <td>${u.getId()}</td>
@@ -65,8 +64,7 @@
 	        <td>${u.getDepartment()}</td>
 	        <td>${u.getStatus() == 1 ? 'Active' : 'NotActive'}</td>
 	        <% if(userType.equals("admin")){%>
-	        <td><a href="editComplaint.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-	        <td><a href="deleteComp.jsp?id=${c.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
+	        <td><a href="DeleteTechnician.jsp?id=${u.getId()}"><span class="glyphicon glyphicon-remove"></span></a></td>
 	        <%} %>
 	      </tr>
       </c:forEach>

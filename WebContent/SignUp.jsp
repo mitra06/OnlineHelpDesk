@@ -5,7 +5,7 @@
 <%  
 int i=UserDao.save(u);  
 if(i>0){  
-response.sendRedirect("adduser-success.jsp");  
+response.sendRedirect("dashboard.jsp");  
 }else{  
 response.sendRedirect("adduser-error.jsp");  
 }  

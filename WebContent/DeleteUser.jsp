@@ -3,11 +3,6 @@
 <jsp:setProperty property="*" name="u"/>  
 <%  
 
-int i=UserDao.UpdateUser(u);  
-if(i>0){  
-response.sendRedirect("complaintlist.jsp");  
-}else{  
-out.println("Something went wrong");  
-}  
-
+UserDao.deleteUser(u);
+response.sendRedirect("ViewUser.jsp");  
 %>

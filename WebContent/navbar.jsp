@@ -3,6 +3,7 @@
 
 <%@page import="mishra.mitra.dao.*,mishra.mitra.bean.*,java.util.*"%>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="mishra.mitra.dao.*,mishra.mitra.bean.*"%>
 <%
 String email=(String)session.getAttribute("email");
 
@@ -31,6 +32,7 @@ String userType=u.getType();
         </ul>
       </li>
       <li><a href="ViewTechnician.jsp">Technician</a></li>
+      <li><a href="ViewUser.jsp">User</a></li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Department
         <span class="caret"></span></a>
@@ -80,7 +82,7 @@ String userType=u.getType();
         <h4 class="modal-title">Your Profile</h4>
       </div>
       <div class="modal-body col-sm-12">
-        <form class="form-horizontal" action="" method="post">
+        <form class="form-horizontal" action="UserUpdate.jsp" method="post">
 				<div class="form-group">
 			    <label class="col-sm-2 col-sm-offset-2 sr-only" for="id">User Id</label>
 			    <div class="col-sm-4">
@@ -90,43 +92,43 @@ String userType=u.getType();
 			  	<div class="form-group">
 			    <label class="col-sm-3 col-sm-offset-2" for="name">Name</label>
 			    <div class="col-sm-6">  
-			    <input type="text" name="name" class="form-control" placeholder="User Name" value=""/>
+			    <input type="text" name="name" class="form-control" placeholder="User Name" value="<%= u.getName()%>"/>
 			    
 			    </div>
 			  </div>
 			  <div class="form-group">
 			   <label class="col-sm-3 col-sm-offset-2" for="name">Email</label>
 			   <div class="col-sm-6">
-			   <input type="text" name="email" class="form-control" placeholder="User Email" value="">
+			   <input type="text" name="email" class="form-control" placeholder="User Email" value="<%= u.getEmail()%>">
 			   </div>
 			 </div>
 				
 			<div class="form-group">
 			   <label class="col-sm-3 col-sm-offset-2" for="name">Password</label>
 			   <div class="col-sm-6">
-			   <input type="text" name="email" class="form-control" placeholder="User Password" value="">
+			   <input type="text" name="password" class="form-control" placeholder="User Password" value="<%= u.getPassword()%>">
 			   </div>
 			 </div>
 			   <div class="form-group">
 			    <label class="col-sm-3 col-sm-offset-2" for="name">Phone</label>
 			    <div class="col-sm-6">
-			    <input type="text" name="email" class="form-control" placeholder="User Phone" value="">
+			    <input type="text" name="phone" class="form-control" placeholder="User Phone" value="">
 			
 			  </div>
 			  </div>
 			   <div class="form-group">
 			    <label class="col-sm-3 col-sm-offset-2" for="name">User Type</label>
 			    <div class="col-sm-6">
-			    <input type="text" name="email" class="form-control" placeholder="User Type" value="" readonly>
+			    <input type="text" name="email" class="form-control" placeholder="User Type" value="<%= u.getType()%>" readonly>
 			    </div>
 			  </div>
 		   <div class="form-group">
 		    <label class="col-sm-3 col-sm-offset-2" for="name">User Department</label>
 		    <div class="col-sm-6">
-		    <select name="status" class="form-control" required>
-		    <option value=""></option>
-		    <option value="">Computer Science</option>
-		    <option value="">Electrical</option>
+		    <select name="department" class="form-control" required>
+		    <option value="<%= u.getDepartment()%>"><%= u.getDepartment()%></option>
+		    <option value="computerScience">Computer Science</option>
+		    <option value="Electrial">Electrical</option>
 		    </select> 
 		    </div>
 		  </div>
